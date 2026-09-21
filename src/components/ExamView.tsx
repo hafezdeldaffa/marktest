@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ExamQuestion, UserAnswerRecord, FlaggedRecord } from '../types/exam';
-import { Clock, Flag, ChevronLeft, ChevronRight, Grid, Send, X, Sun, Moon, LogOut, BookOpen } from 'lucide-react';
+import { Clock, Flag, ChevronLeft, ChevronRight, Grid, Send, X, Sun, Moon, LogOut, Pause, Play, PauseCircle, PlayCircle } from 'lucide-react';
 
 interface ExamViewProps {
   examTitle: string;
@@ -29,6 +29,7 @@ export const ExamView: React.FC<ExamViewProps> = ({
 }) => {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [secondsElapsed, setSecondsElapsed] = useState<number>(0);
+  const [isPaused, setIsPaused] = useState<boolean>(false);
   const [showDrawer, setShowDrawer] = useState<boolean>(false);
   const [showConfirmModal, setShowConfirmModal] = useState<boolean>(false);
 
@@ -37,16 +38,30 @@ export const ExamView: React.FC<ExamViewProps> = ({
   const answeredCount = Object.keys(userAnswers).length;
   const flaggedCount = Object.values(flaggedQuestions).filter(Boolean).length;
 
+  // Timer Effect - respects isPaused state
   useEffect(() => {
+    if (isPaused) return;
+
     const interval = setInterval(() => {
       setSecondsElapsed((prev) => prev + 1);
     }, 1000);
     return () => clearInterval(interval);
-  }, []);
+  }, [isPaused]);
 
+  // Keyboard navigation shortcuts
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (showConfirmModal) return;
+
+      // Toggle pause with 'P' or 'Space' (if not typing)
+      if (e.key.toLowerCase() === 'p' || (e.code === 'Space' && e.target === document.body)) {
+        e.preventDefault();
+        setIsPaused((prev) => !prev);
+        return;
+      }
+
+      // Block answering/navigation if paused
+      if (isPaused) return;
 
       const key = e.key.toUpperCase();
       if (['A', 'B', 'C', 'D', 'E', 'F'].includes(key)) {
@@ -69,7 +84,7 @@ export const ExamView: React.FC<ExamViewProps> = ({
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [currentIndex, currentQuestion, totalQuestions, showConfirmModal, onSelectAnswer, onToggleFlag]);
+  }, [currentIndex, currentQuestion, totalQuestions, showConfirmModal, isPaused, onSelectAnswer, onToggleFlag]);
 
   const formatTime = (totalSec: number) => {
     const mins = Math.floor(totalSec / 60);
@@ -105,11 +120,40 @@ export const ExamView: React.FC<ExamViewProps> = ({
             </div>
           </div>
 
-          {/* Center: Timer & Progress */}
+          {/* Center: Interactive Timer & Pause Button */}
           <div className="flex items-center gap-4">
-            <div className="hidden sm:flex items-center gap-2 bg-indigo-600 dark:bg-indigo-500 text-white dark:text-white px-3.5 py-1.5 rounded-lg text-sm font-extrabold shadow-xs border border-indigo-700 dark:border-indigo-400 tracking-wide">
-              <Clock className="w-4 h-4 text-indigo-100" />
-              <span>{formatTime(secondsElapsed)}</span>
+            <div className="flex items-center gap-2">
+              <div className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-sm font-extrabold shadow-xs border transition ${
+                isPaused
+                  ? 'bg-amber-500 dark:bg-amber-600 text-white border-amber-600 dark:border-amber-400 animate-pulse'
+                  : 'bg-indigo-600 dark:bg-indigo-500 text-white border-indigo-700 dark:border-indigo-400'
+              }`}>
+                <Clock className="w-4 h-4 text-white" />
+                <span>{isPaused ? 'PAUSED' : formatTime(secondsElapsed)}</span>
+              </div>
+
+              {/* Pause / Resume Button */}
+              <button
+                onClick={() => setIsPaused((prev) => !prev)}
+                className={`p-1.5 rounded-lg border text-xs font-bold transition flex items-center gap-1 shadow-xs ${
+                  isPaused
+                    ? 'bg-emerald-600 hover:bg-emerald-700 text-white border-emerald-700'
+                    : 'bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border-slate-300 dark:border-slate-700'
+                }`}
+                title={isPaused ? "Resume Exam (Shortcut: P)" : "Pause Exam (Shortcut: P)"}
+              >
+                {isPaused ? (
+                  <>
+                    <Play className="w-4 h-4 fill-current text-white" />
+                    <span className="hidden md:inline">Resume</span>
+                  </>
+                ) : (
+                  <>
+                    <Pause className="w-4 h-4 fill-current text-slate-700 dark:text-slate-200" />
+                    <span className="hidden md:inline">Pause</span>
+                  </>
+                )}
+              </button>
             </div>
 
             <div className="flex items-center gap-2">
@@ -158,8 +202,32 @@ export const ExamView: React.FC<ExamViewProps> = ({
       </header>
 
       {/* Main Content Area */}
-      <div className="max-w-4xl mx-auto px-4 py-8 flex-1 w-full flex flex-col justify-between">
-        <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xs p-6 sm:p-8">
+      <div className="max-w-4xl mx-auto px-4 py-8 flex-1 w-full flex flex-col justify-between relative">
+        <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xs p-6 sm:p-8 relative overflow-hidden">
+          
+          {/* PAUSED OVERLAY MASK */}
+          {isPaused && (
+            <div className="absolute inset-0 z-20 bg-slate-900/70 backdrop-blur-md flex items-center justify-center p-6 text-center animate-in fade-in duration-200">
+              <div className="bg-white dark:bg-slate-900 rounded-3xl p-8 max-w-sm border border-slate-200 dark:border-slate-800 shadow-2xl flex flex-col items-center">
+                <div className="w-16 h-16 bg-amber-100 dark:bg-amber-950 text-amber-600 dark:text-amber-400 rounded-full flex items-center justify-center mb-4 shadow-xs">
+                  <PauseCircle className="w-10 h-10" />
+                </div>
+                <h3 className="text-2xl font-black text-slate-900 dark:text-white mb-2">Exam Paused</h3>
+                <p className="text-sm text-slate-600 dark:text-slate-300 mb-6">
+                  The timer is currently stopped at <strong className="text-amber-600 dark:text-amber-400">{formatTime(secondsElapsed)}</strong>. Questions are hidden while paused.
+                </p>
+                <button
+                  onClick={() => setIsPaused(false)}
+                  className="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold shadow-lg transition flex items-center justify-center gap-2 hover:-translate-y-0.5"
+                >
+                  <Play className="w-5 h-5 fill-current" />
+                  Resume Exam
+                </button>
+                <span className="text-xs text-slate-400 mt-3">Press <kbd className="px-1.5 py-0.5 bg-slate-100 dark:bg-slate-800 border rounded">P</kbd> or <kbd className="px-1.5 py-0.5 bg-slate-100 dark:bg-slate-800 border rounded">Space</kbd> to unpause</span>
+              </div>
+            </div>
+          )}
+
           {/* Question Header Metadata */}
           <div className="flex items-center justify-between mb-6 border-b border-slate-100 dark:border-slate-800 pb-4">
             <div className="flex items-center gap-3">

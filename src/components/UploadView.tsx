@@ -243,7 +243,7 @@ export const UploadView: React.FC<UploadViewProps> = ({
             className="w-full sm:w-auto px-6 py-3.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 font-semibold rounded-xl transition flex items-center justify-center gap-2 shadow-xs"
           >
             <BookOpen className="w-4 h-4 text-indigo-500 dark:text-indigo-400" />
-            {loadingSample ? 'Loading...' : 'Try CAPM Sample Exam (10 Questions)'}
+            {loadingSample ? 'Loading...' : 'Try Sample Exam (10 Questions)'}
           </button>
         </div>
 
@@ -268,14 +268,14 @@ export const UploadView: React.FC<UploadViewProps> = ({
                 <div>
                   <h4 className="font-bold text-slate-900 dark:text-slate-100 mb-2 text-xs uppercase tracking-wider">Questions File (.md)</h4>
                   <pre className="bg-slate-900 text-slate-200 p-4 rounded-xl text-xs overflow-x-auto">
-{`### Question 1 (Initiating)
+{`### Question 1 (General Knowledge)
 
-**Which input to Develop Project Charter is the PM reviewing?**
+**Which planet in our Solar System is famously known as the Red Planet?**
 
-A. Benefits Management Plan
-B. Business Case
-C. Project Scope Statement
-D. Assumption Log
+A. Venus
+B. Mars
+C. Jupiter
+D. Saturn
 
 ---`}
                   </pre>
@@ -288,7 +288,7 @@ D. Assumption Log
 
 **Correct Answer:** B
 
-**Explanation:** The Business Case contains the necessary economic and strategic justification.
+**Explanation:** Mars appears red because its surface material contains iron oxide.
 
 ---`}
                   </pre>
