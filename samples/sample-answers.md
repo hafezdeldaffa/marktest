@@ -1,18 +1,18 @@
-# CAPM 100-Question Scenario Practice Exam - Answers & Detailed Explanations
+# General Knowledge & Problem Solving Sample Practice Exam - Answers & Detailed Explanations
 
 ### Question 1
 
 **Correct Answer:** B
 
-**Explanation:** The Business Case contains the necessary economic and strategic justification to determine if the project is worth the required investment.
+**Explanation:** Mars appears red because its surface material contains iron oxide (rust).
 
 ---
 
 ### Question 2
 
-**Correct Answer:** C
+**Correct Answer:** B
 
-**Explanation:** The Assumption Log captures factors accepted as true without proof (assumptions) and external limitations like working hour limits (constraints).
+**Explanation:** Total work units = 6 workers × 12 days = 72 worker-days. With 9 workers: 72 / 9 = 8 days.
 
 ---
 
@@ -20,23 +20,23 @@
 
 **Correct Answer:** B
 
-**Explanation:** Stakeholders with High Power and Low Interest should be kept satisfied to prevent potential opposition.
+**Explanation:** HTTP 2xx status codes (such as 200 OK or 201 Created) indicate successful request execution.
 
 ---
 
 ### Question 4
 
-**Correct Answer:** C
+**Correct Answer:** B
 
-**Explanation:** Outward influence includes external stakeholders such as vendors, government regulators, end-users, and the public.
+**Explanation:** A Stack uses LIFO (Last-In, First-Out), whereas a Queue uses FIFO (First-In, First-Out).
 
 ---
 
 ### Question 5
 
-**Correct Answer:** C
+**Correct Answer:** B
 
-**Explanation:** The Project Charter formally authorizes the existence of the project and assigns the PM with authority to allocate resources.
+**Explanation:** The kick-off meeting brings team members and key stakeholders together to establish shared vision, goals, and working expectations.
 
 ---
 
@@ -44,15 +44,15 @@
 
 **Correct Answer:** C
 
-**Explanation:** The Salience Model classifies stakeholders based on Power (authority), Urgency (need for immediate attention), and Legitimacy (appropriateness of involvement).
+**Explanation:** DNS (Domain Name System) maps human-friendly domain names to numerical IP addresses.
 
 ---
 
 ### Question 7
 
-**Correct Answer:** C
+**Correct Answer:** B
 
-**Explanation:** Agreements (contracts, SLAs, MOUs) are inputs to Identify Stakeholders that list third-party vendors and external legal entities.
+**Explanation:** Multi-Factor Authentication (MFA) requires two or more distinct verification mechanisms to grant access.
 
 ---
 
@@ -60,15 +60,15 @@
 
 **Correct Answer:** B
 
-**Explanation:** Standard templates, corporate policies, and historical lesson repositories are internal Organizational Process Assets (OPAs).
+**Explanation:** Au comes from the Latin word for gold, *Aurum* (shining dawn).
 
 ---
 
 ### Question 9
 
-**Correct Answer:** B
+**Correct Answer:** A
 
-**Explanation:** The Benefits Management Plan details the specific benefits delivered by the project, how they will be measured, and how value will be sustained.
+**Explanation:** Scrum daily standups are strictly time-boxed to 15 minutes to keep updates quick and focused.
 
 ---
 
@@ -76,4 +76,4 @@
 
 **Correct Answer:** C
 
-**Explanation:** Interviews involve direct, 1-on-1 structured or informal discussions to extract sensitive stakeholder expectations and concerns.
+**Explanation:** The `SELECT` statement in SQL queries and retrieves data rows from database tables.
